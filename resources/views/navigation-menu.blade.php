@@ -1,3 +1,14 @@
+@php
+    
+    $links = [
+        [
+            'name' => 'Dashboard',
+            'url' => route('dashboard'),
+            'active' => request()->routeIs('dashboard'),
+        ],
+    ];
+@endphp
+
 <nav x-data="{ open: false }" class="bg-white border-b border-gray-100">
 
     <!-- Primary Navigation Menu -->
@@ -13,9 +24,13 @@
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    <x-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
-                        {{ __('Dashboard') }}
-                    </x-nav-link>
+
+                    @foreach ($links as $link)
+                        <x-nav-link href="{{ $link['url'] }}" :active="$link['active']">
+                            {{ $link['name'] }}
+                        </x-nav-link>
+                    @endforeach
+
                 </div>
             </div>
 
@@ -77,9 +92,7 @@
                             </x-slot>
                         </x-dropdown>
                     </div>
-
-                    @else
-
+                @else
                     <a href="/login" class="mr-2 text-gray-500 font-semibold hover:text-gray-800">Login</a>
                     <a href="/register" class="text-gray-500 font-semibold  hover:text-gray-800">Registro</a>
 
@@ -105,22 +118,25 @@
     <!-- Responsive Navigation Menu -->
     <div :class="{ 'block': open, 'hidden': !open }" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
-            <x-responsive-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
-                {{ __('Dashboard') }}
-            </x-responsive-nav-link>
+
+            @foreach ($links as $link)
+                <x-nav-link href="{{ $link['url'] }}" :active="$link['active']">
+                    {{ $link['name'] }}
+                </x-nav-link>
+            @endforeach
 
             {{-- guest lo contrario de auth, verifica que no estemos authenticado --}}
             {{-- si no estamos logeado lo muestra, si no lo oculta --}}
             @guest
-            <x-responsive-nav-link href="/login" :active="request()->routeIs('login')">
-                Login
-            </x-responsive-nav-link>
+                <x-responsive-nav-link href="/login" :active="request()->routeIs('login')">
+                    Login
+                </x-responsive-nav-link>
 
-            <x-responsive-nav-link href="{{ route('register') }}" :active="request()->routeIs('register')">
-                Register
-            </x-responsive-nav-link>
+                <x-responsive-nav-link href="{{ route('register') }}" :active="request()->routeIs('register')">
+                    Register
+                </x-responsive-nav-link>
             @endguest
-               
+
 
         </div>
 
