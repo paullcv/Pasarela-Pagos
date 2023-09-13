@@ -3,12 +3,15 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use function Illuminate\Events\queueable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;
+
+use Laravel\Cashier\Billable;
 
 class User extends Authenticatable
 {
@@ -17,6 +20,8 @@ class User extends Authenticatable
     use HasProfilePhoto;
     use Notifiable;
     use TwoFactorAuthenticatable;
+
+    use Billable;
 
     /**
      * The attributes that are mass assignable.
@@ -58,4 +63,17 @@ class User extends Authenticatable
     protected $appends = [
         'profile_photo_url',
     ];
+
+
+    /**
+     * The "booted" method of the model.
+     */
+    protected static function booted(): void
+    {
+        static::updated(queueable(function (User $customer) {
+            if ($customer->hasStripeId()) {
+                $customer->syncStripeCustomerDetails();
+            }
+        }));
+    }
 }
