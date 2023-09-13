@@ -5,11 +5,11 @@
         <div class="grid grid-cols-3 gap-6">
 
             @foreach ($products as $product)
-                
                 <div class="bg-white rounded shadow-lg">
 
                     <div class="h-56 bg-cover bg-center p-4" style="background-image: url({{ $product->image }})">
-                        <span class="bg-blue-100 text-blue-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">
+                        <span
+                            class="bg-blue-100 text-blue-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">
                             {{ $product->price }} Bs
                         </span>
                     </div>
@@ -24,9 +24,12 @@
                     </div>
 
                 </div>
-
             @endforeach
 
+        </div>
+
+        <div class="mt-8">
+            {{ $products->links()}}
         </div>
     </x-container>
 
