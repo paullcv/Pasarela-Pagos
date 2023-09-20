@@ -47,9 +47,15 @@
         <script>
             const cardHolderName = document.getElementById('card-holder-name');
             const cardButton = document.getElementById('card-button');
-            const clientSecret = cardButton.dataset.secret;
+            
 
             cardButton.addEventListener('click', async (e) => {
+                //Deshabiilitar boton
+                cardButton.disabled = true;
+
+                //Para permitir varios metodos de pagos
+                const clientSecret = cardButton.dataset.secret;
+
                 const {
                     setupIntent,
                     error
@@ -64,6 +70,8 @@
                     }
                 );
 
+                cardButton.disabled = false;
+
                 if (error) {
 
                     let span = document.getElementById('card-error-message')
@@ -72,6 +80,10 @@
 
                     console.log(error.message);
                 } else {
+
+                    cardHolderName.value =  '';
+                    cardElement.clear();
+                    
                     @this.addPaymentMethod(setupIntent.payment_method);
                     console.log(setupIntent.payment_method);
                 }
