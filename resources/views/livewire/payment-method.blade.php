@@ -32,7 +32,8 @@
 
     </section>
 
-    <div class="mb-12 justify-center" wire:target="addPaymentMethod" wire:loading.flex >
+    {{-- Animacion de carga --}}
+    <div class="mb-12 justify-center" wire:target="addPaymentMethod" wire:loading.flex>
 
         <div role="status">
             <svg aria-hidden="true" class="w-8 h-8 mr-2 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600"
@@ -62,20 +63,40 @@
 
                 <ul class="divide-y divide-gray-200">
                     @foreach ($paymentMethods as $paymentMethod)
-                        <li class="py-2 flex justify-between">
+                        <li class="py-2 flex justify-between" wire:key="{{ $paymentMethod->id }}">
 
                             <div>
-                                <p><span class="font-semibold">{{ $paymentMethod->billing_details->name }}</span>
-                                    xxxx-{{ $paymentMethod->card->last4 }}</p>
+                                <p>
+                                    <span class="font-semibold">{{ $paymentMethod->billing_details->name }}</span>
+                                    xxxx-{{ $paymentMethod->card->last4 }}
+                                    {{-- Verificar cual es el metodo de pago predeterminado --}}
+                                    {{-- @if (auth()->user()->defaultPaymentMethod()->id == $paymentMethod->id) es una opcion --}}
+                                    @if ($this->defaultPaymentMethod->id == $paymentMethod->id)
+                                        <span
+                                            class="ml-2 bg-blue-100 text-blue-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">Predeterminado</span>
+                                    @endif
+
+                                </p>
                                 <p>Expira: {{ $paymentMethod->card->exp_month }}/{{ $paymentMethod->card->exp_year }}
                                 </p>
                             </div>
-                            <button class="disabled:opacity-25"
-                                wire:click="deletePaymentMethod('{{ $paymentMethod->id }}')"
-                                wire:target="deletePaymentMethod('{{ $paymentMethod->id }}')"
-                                wire:loading.attr="disabled">
-                                <i class="fa-regular fa-trash-can"></i>
-                            </button>
+
+                            @if ($this->defaultPaymentMethod->id != $paymentMethod->id)
+                                <div class="flex space-x-4">
+                                    <button class="disabled:opacity-25"
+                                        wire:click="defaultPaymentMethod('{{ $paymentMethod->id }}')"
+                                        wire:target="defaultPaymentMethod('{{ $paymentMethod->id }}')"
+                                        wire:loading.attr="disabled">
+                                        <i class="fa-regular fa-star"></i>
+                                    </button>
+                                    <button class="disabled:opacity-25"
+                                        wire:click="deletePaymentMethod('{{ $paymentMethod->id }}')"
+                                        wire:target="deletePaymentMethod('{{ $paymentMethod->id }}')"
+                                        wire:loading.attr="disabled">
+                                        <i class="fa-regular fa-trash-can"></i>
+                                    </button>
+                                </div>
+                            @endif
 
                         </li>
                     @endforeach
