@@ -72,8 +72,11 @@
                                     {{-- Verificar cual es el metodo de pago predeterminado --}}
                                     {{-- @if (auth()->user()->defaultPaymentMethod()->id == $paymentMethod->id) es una opcion --}}
                                     @if ($this->defaultPaymentMethod->id == $paymentMethod->id)
-                                        <span
-                                            class="ml-2 bg-blue-100 text-blue-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">Predeterminado</span>
+                                    {{-- @if ($this->defaultPaymentMethod && $this->defaultPaymentMethod->id == $paymentMethod->id) --}}
+                                    <span
+                                        class="ml-2 bg-blue-100 text-blue-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">
+                                        Predeterminado
+                                    </span>
                                     @endif
 
                                 </p>
@@ -82,20 +85,21 @@
                             </div>
 
                             @if ($this->defaultPaymentMethod->id != $paymentMethod->id)
-                                <div class="flex space-x-4">
-                                    <button class="disabled:opacity-25"
-                                        wire:click="defaultPaymentMethod('{{ $paymentMethod->id }}')"
-                                        wire:target="defaultPaymentMethod('{{ $paymentMethod->id }}')"
-                                        wire:loading.attr="disabled">
-                                        <i class="fa-regular fa-star"></i>
-                                    </button>
-                                    <button class="disabled:opacity-25"
-                                        wire:click="deletePaymentMethod('{{ $paymentMethod->id }}')"
-                                        wire:target="deletePaymentMethod('{{ $paymentMethod->id }}')"
-                                        wire:loading.attr="disabled">
-                                        <i class="fa-regular fa-trash-can"></i>
-                                    </button>
-                                </div>
+                            {{-- @if ($this->defaultPaymentMethod && $this->defaultPaymentMethod->id != $paymentMethod->id) --}}
+                            <div class="flex space-x-4">
+                                <button class="disabled:opacity-25"
+                                    wire:click="defaultPaymentMethod('{{ $paymentMethod->id }}')"
+                                    wire:target="defaultPaymentMethod('{{ $paymentMethod->id }}')"
+                                    wire:loading.attr="disabled">
+                                    <i class="fa-regular fa-star"></i>
+                                </button>
+                                <button class="disabled:opacity-25"
+                                    wire:click="deletePaymentMethod('{{ $paymentMethod->id }}')"
+                                    wire:target="deletePaymentMethod('{{ $paymentMethod->id }}')"
+                                    wire:loading.attr="disabled">
+                                    <i class="fa-regular fa-trash-can"></i>
+                                </button>
+                            </div>
                             @endif
 
                         </li>
