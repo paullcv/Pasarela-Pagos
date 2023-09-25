@@ -14,6 +14,9 @@
         {{-- Font Awesome --}}
         <script src="https://kit.fontawesome.com/d68e27db16.js" crossorigin="anonymous"></script>
 
+        {{-- sweetalert2 --}}
+        <script src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
 
