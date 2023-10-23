@@ -151,7 +151,7 @@
 
                 if (error) {
 
-                    let span = document.getElementById('card-error-message')
+                    let span = document.getElementById('card-error-message');
 
                     span.textContent = error.message;
 
@@ -160,6 +160,10 @@
 
                     cardHolderName.value = '';
                     cardElement.clear();
+
+                    //para borrar el mensaje de errror
+                    let span = document.getElementById('card-error-message');
+                    span.textContent = '';
 
                     @this.addPaymentMethod(setupIntent.payment_method);
                     console.log(setupIntent.payment_method);

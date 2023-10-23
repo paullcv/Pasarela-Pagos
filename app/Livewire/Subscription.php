@@ -18,11 +18,24 @@ class Subscription extends Component
     {
         //dd($plan);
         if (! $this->defaultPaymentMethod) {
-            $this->emit('error','¡No tienes un método de pago por defecto!');
-
+            //$this->emit('error','¡No tienes un método de pago por defecto!');
+            session()->flash('error', 'No tienes un metodo de pago por defecto');
             return;
         }
-        auth()->user()->newSubscription('Cuso Suscripciones',$plan)->create($this->defaultPaymentMethod->id);
+       
+       //suscribirse
+        //auth()->user()->newSubscription('Cuso Suscripciones',$plan)->create($this->defaultPaymentMethod->id);
+
+        //capturar error
+        try{
+            auth()->user()->newSubscription('Cuso Suscripciones',$plan)->create($this->defaultPaymentMethod->id);
+        }catch (\Exception $e) {    
+            session()->flash('error', 'El intento de pago fallo debido a un metodo de pago no valido');
+        }
+    }
+
+    public function cancelSubscription(){
+        auth()->user()->subscription('Cuso Suscripciones')->cancel();
     }
 
     public function render()
