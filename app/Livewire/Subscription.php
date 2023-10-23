@@ -28,7 +28,13 @@ class Subscription extends Component
 
         //capturar error
         try{
+            if(auth()->user()->subscribed('Cuso Suscripciones')){
+                auth()->user()->subscription('Cuso Suscripciones')->swap($plan);
+                return;
+            }
             auth()->user()->newSubscription('Cuso Suscripciones',$plan)->create($this->defaultPaymentMethod->id);
+            auth()->user()->refresh();
+
         }catch (\Exception $e) {    
             session()->flash('error', 'El intento de pago fallo debido a un metodo de pago no valido');
         }
