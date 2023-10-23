@@ -75,14 +75,22 @@
 
                     @if (auth()->user()->subscribedToPrice('price_1NuHBvDh3Rgs6haXp8bNG24q', 'Cuso Suscripciones'))
                         {{-- Suscrito --}}
-                        <x-danger-button wire:click="cancelSubscription"
-                            wire:target="cancelSubscription" wire:loading.attr="disabled">
-                            
-                            <x-spinner size="4"  wire:target="cancelSubscription"
-                            wire:loading />
 
-                            Cancelar
-                        </x-danger-button>
+                        @if (auth()->user()->subscription('Cuso Suscripciones')->onGraceperiod())
+                            <x-secondary-button wire:click="resumeSubscription" wire:target="resumeSubscription"
+                                wire:loading.attr="disabled">
+                                <x-spinner size="4" wire:target="resumeSubscription" wire:loading />
+                                Reanudar
+                            </x-secondary-button>
+                        @else
+                            <x-danger-button wire:click="cancelSubscription" wire:target="cancelSubscription"
+                                wire:loading.attr="disabled">
+
+                                <x-spinner size="4" wire:target="cancelSubscription" wire:loading />
+
+                                Cancelar
+                            </x-danger-button>
+                        @endif
                     @else
                         <x-button wire:click="newSubscription('price_1NuHBvDh3Rgs6haXp8bNG24q')"
                             wire:target="newSubscription('price_1NuHBvDh3Rgs6haXp8bNG24q')"
@@ -109,8 +117,6 @@
                             </div> --}}
                             <x-spinner size="4" wire:target="newSubscription('price_1NuHBvDh3Rgs6haXp8bNG24q')"
                                 wire:loading />
-
-
                             Suscribirse
                         </x-button>
                     @endif
@@ -179,13 +185,29 @@
                         </li>
                     </ul>
                     @if (auth()->user()->subscribedToPrice('price_1NuHBvDh3Rgs6haX7Tm5BEuD', 'Cuso Suscripciones'))
-                        Suscrito
+                        {{-- Suscrito --}}
+
+                        @if (auth()->user()->subscription('Cuso Suscripciones')->onGraceperiod())
+                            <x-secondary-button wire:click="resumeSubscription" wire:target="resumeSubscription"
+                                wire:loading.attr="disabled">
+                                <x-spinner size="4" wire:target="resumeSubscription" wire:loading />
+                                Reanudar
+                            </x-secondary-button>
+                        @else
+                            <x-danger-button wire:click="cancelSubscription" wire:target="cancelSubscription"
+                                wire:loading.attr="disabled">
+
+                                <x-spinner size="4" wire:target="cancelSubscription" wire:loading />
+
+                                Cancelar
+                            </x-danger-button>
+                        @endif
                     @else
                         <x-button wire:click="newSubscription('price_1NuHBvDh3Rgs6haX7Tm5BEuD')"
                             wire:target="newSubscription('price_1NuHBvDh3Rgs6haX7Tm5BEuD')"
                             wire:loading.attr="disabled">
                             {{-- Animacion de carga --}}
-                            <div class="justify-center"
+                            {{-- <div class="justify-center"
                                 wire:target="newSubscription('price_1NuHBvDh3Rgs6haX7Tm5BEuD')" wire:loading>
 
                                 <div role="status">
@@ -202,7 +224,8 @@
                                     <span class="sr-only">Loading...</span>
                                 </div>
 
-                            </div>
+                            </div> --}}
+                            <x-spinner size="4" wire:target="newSubscription('price_1NuHBvDh3Rgs6haX7Tm5BEuD')" wire:loading />
                             Suscribirse
                         </x-button>
                     @endif
@@ -271,13 +294,30 @@
                         </li>
                     </ul>
                     @if (auth()->user()->subscribedToPrice('price_1NuHBvDh3Rgs6haXdHQBlYxP', 'Cuso Suscripciones'))
-                        Suscrito
+                        {{-- Suscrito --}}
+
+                        @if (auth()->user()->subscription('Cuso Suscripciones')->onGraceperiod())
+                            <x-secondary-button wire:click="resumeSubscription" wire:target="resumeSubscription"
+                                wire:loading.attr="disabled">
+                                <x-spinner size="4" wire:target="resumeSubscription" wire:loading />
+                                Reanudar
+                            </x-secondary-button>
+                        @else
+                            <x-danger-button wire:click="cancelSubscription" wire:target="cancelSubscription"
+                                wire:loading.attr="disabled">
+
+                                <x-spinner size="4" wire:target="cancelSubscription" wire:loading />
+
+                                Cancelar
+                            </x-danger-button>
+                        @endif
                     @else
                         <x-button wire:click="newSubscription('price_1NuHBvDh3Rgs6haXdHQBlYxP')"
                             wire:target="newSubscription('price_1NuHBvDh3Rgs6haXdHQBlYxP')"
                             wire:loading.attr="disabled">
+                           
                             {{-- Animacion de carga --}}
-                            <div class="justify-center"
+                            {{-- <div class="justify-center"
                                 wire:target="newSubscription('price_1NuHBvDh3Rgs6haXdHQBlYxP')" wire:loading>
 
                                 <div role="status">
@@ -294,8 +334,8 @@
                                     <span class="sr-only">Loading...</span>
                                 </div>
 
-                            </div>
-
+                            </div> --}}
+                            <x-spinner size="4"  wire:target="newSubscription('price_1NuHBvDh3Rgs6haXdHQBlYxP')" wire:loading />
                             Suscribirse
                         </x-button>
                     @endif
@@ -304,14 +344,15 @@
         </div>
     </section>
     @if (session('error'))
-    <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 relative" role="alert">
-        {{ session('error') }}
-        <button class="absolute top-0 right-0 -mt-2 -mr-2 p-2" onclick="this.parentElement.style.display='none'">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-            </svg>
-        </button>
-    </div>
-@endif
+        <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 relative" role="alert">
+            {{ session('error') }}
+            <button class="absolute top-0 right-0 -mt-2 -mr-2 p-2" onclick="this.parentElement.style.display='none'">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+        </div>
+    @endif
 
 </div>

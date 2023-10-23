@@ -34,9 +34,16 @@ class Subscription extends Component
         }
     }
 
+    //canelar subscripcion
     public function cancelSubscription(){
         auth()->user()->subscription('Cuso Suscripciones')->cancel();
     }
+
+    //reanudar subscription
+    public function resumeSubscription(){
+        auth()->user()->subscription('Cuso Suscripciones')->resume();
+    }
+
 
     public function render()
     {
